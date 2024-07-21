@@ -8,7 +8,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { MenuOptions } from "@/lib/constants";
+import { menuOptions } from "@/lib/constants";
 import clsx from "clsx";
 import { Separator } from "@/components/ui/separator";
 import { Database, GitBranch, LucideMousePointerClick } from "lucide-react";
@@ -29,7 +29,7 @@ const Sidebar = (props: Props) => {
 					Automaton.
 				</Link>
 				<TooltipProvider>
-					{MenuOptions.map((menuItem: any) => (
+					{menuOptions.map((menuItem: any) => (
 						<ul key={menuItem.name}>
 							<Tooltip delayDuration={0}>
 								<TooltipTrigger>

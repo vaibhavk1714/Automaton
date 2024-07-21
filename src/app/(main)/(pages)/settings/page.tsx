@@ -12,14 +12,13 @@ type Props = {};
 const Settings = async (props: Props) => {
 	const authUser = await currentUser();
 
-	if (!authUser)
-		return null;
+	if (!authUser) return null;
 
 	const user = await db.user.findUnique({
 		where: {
-			clerkId: authUser.id
-		}
-	})
+			clerkId: authUser.id,
+		},
+	});
 
 	const removeProfileImage = async () => {
 		"use server";
@@ -56,15 +55,15 @@ const Settings = async (props: Props) => {
 
 		const response = await db.user.update({
 			where: {
-				clerkId: authUser.id
+				clerkId: authUser.id,
 			},
 			data: {
 				name,
-			}
-		})
+			},
+		});
 
 		return response;
-	}
+	};
 
 	return (
 		<div className="flex flex-col gap-4 relative">
@@ -76,10 +75,13 @@ const Settings = async (props: Props) => {
 				</p>
 				<ProfilePicture
 					onDelete={removeProfileImage}
-					userImage={user?.profileImage || ''}
-					onUpload={uploadProfileImage}>
-				</ProfilePicture>
-				<ProfileForm user={user} onUpdate={updateUserInfo} />
+					userImage={user?.profileImage || ""}
+					onUpload={uploadProfileImage}
+				></ProfilePicture>
+				<ProfileForm
+					user={user}
+					onUpdate={updateUserInfo}
+				/>
 			</div>
 		</div>
 	);
