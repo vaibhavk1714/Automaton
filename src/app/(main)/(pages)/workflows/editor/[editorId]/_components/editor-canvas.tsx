@@ -55,7 +55,6 @@ const EditorCanvas = (props: Props) => {
 
 	const onNodesChange = useCallback(
 		(changes: NodeChange[]) => {
-			console.log(changes);
 			//@ts-ignore
 			setNodes((nds) => applyNodeChanges(changes, nds));
 		},
