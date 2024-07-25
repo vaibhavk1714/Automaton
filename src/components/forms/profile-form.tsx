@@ -25,7 +25,6 @@ type Props = {
 
 const ProfileForm = ({ user, onUpdate }: Props) => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	console.log(user);
 
 	const form = useForm<z.infer<typeof EditUserPofileSchema>>({
 		mode: "onChange",
@@ -39,7 +38,6 @@ const ProfileForm = ({ user, onUpdate }: Props) => {
 	const handleSubmit = async (
 		values: z.infer<typeof EditUserPofileSchema>
 	) => {
-		console.log(values);
 		setIsLoading(true);
 		await onUpdate(values.name);
 		setIsLoading(false);
@@ -47,6 +45,7 @@ const ProfileForm = ({ user, onUpdate }: Props) => {
 
 	useEffect(() => {
 		form.reset({ name: user?.name, email: user?.email });
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user]);
 
 	return (

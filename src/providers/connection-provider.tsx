@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from "react";
 
 export type ConnectionProviderProps = {
 	discordNode: {
-		webhookURL: string;
+		webhookUrl: string;
 		content: string;
 		webhookName: string;
 		guildName: string;
@@ -56,7 +56,7 @@ type ConnectionWithChildProps = {
 
 const InitialValues: ConnectionProviderProps = {
 	discordNode: {
-		webhookURL: "",
+		webhookUrl: "",
 		content: "",
 		webhookName: "",
 		guildName: "",

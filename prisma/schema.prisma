@@ -125,7 +125,7 @@ model Workflows {
     notionAccessToken String?
     notionTemplate    String?
 
-    slackAccessToken String
+    slackAccessToken String?
     slackChannels    String[]
     slackTemplate    String?
 

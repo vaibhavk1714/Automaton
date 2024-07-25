@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { AccordionContent } from "@/components/ui/accordion";
 import { ConnectionProviderProps } from "@/providers/connection-provider";
 import { EditorState } from "@/providers/editor-provider";
@@ -12,13 +11,12 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-// import GoogleFileDetails from "./google-file-details";
-// import GoogleDriveFiles from "./google-drive-files";
-// import ActionButton from "./action-button";
+import { onContentChange } from "@/lib/editor-utils";
+import GoogleDriveFiles from "./google-drive-files";
+import ActionButton from "./action-button";
 // import { getFileMetaData } from "@/app/(main)/(pages)/connections/_actions/google-connection";
 import axios from "axios";
 import { toast } from "sonner";
-import { onContentChange } from "@/lib/editor-utils";
 import GoogleFileDetails from "./google-file-detail";
 
 export interface Option {
@@ -30,7 +28,6 @@ export interface Option {
 	/** Group the options by providing key. */
 	[key: string]: string | boolean | undefined;
 }
-
 interface GroupOption {
 	[key: string]: Option[];
 }
@@ -55,20 +52,19 @@ const ContentBasedOnTitle = ({
 	const { selectedNode } = newState.editor;
 	const title = selectedNode.data.title;
 
-	// useEffect(() => {
-	// 	const reqGoogle = async () => {
-	// 		const response: { data: { message: { files: any } } } =
-	// 			await axios.get("/api/drive");
-	// 		if (response) {
-	// 			console.log(response.data.message.files[0]);
-	// 			toast.message("Fetched File");
-	// 			setFile(response.data.message.files[0]);
-	// 		} else {
-	// 			toast.error("Something went wrong");
-	// 		}
-	// 	};
-	// 	reqGoogle();
-	// }, []);
+	useEffect(() => {
+		const reqGoogle = async () => {
+			const response: { data: { message: { files: any } } } =
+				await axios.get("/api/drive");
+			if (response) {
+				toast.message("Fetched File");
+				setFile(response.data.message?.files[0]);
+			} else {
+				toast.error("Something went wrong");
+			}
+		};
+		reqGoogle();
+	}, []);
 
 	// @ts-ignore
 	const nodeConnectionType: any = nodeConnection[nodeMapper[title]];
@@ -82,7 +78,7 @@ const ContentBasedOnTitle = ({
 						title === "Slack"
 							? "slackAccessToken"
 							: title === "Discord"
-								? "webhookURL"
+								? "webhookUrl"
 								: title === "Notion"
 									? "accessToken"
 									: ""
@@ -106,7 +102,6 @@ const ContentBasedOnTitle = ({
 					<p>
 						{title === "Notion" ? "Values to be stored" : "Message"}
 					</p>
-
 					<Input
 						type="text"
 						value={nodeConnectionType.content}
@@ -114,7 +109,6 @@ const ContentBasedOnTitle = ({
 							onContentChange(nodeConnection, title, event)
 						}
 					/>
-
 					{JSON.stringify(file) !== "{}" &&
 						title !== "Google Drive" && (
 							<Card className="w-full">
@@ -134,13 +128,13 @@ const ContentBasedOnTitle = ({
 								</CardContent>
 							</Card>
 						)}
-					{/* {title === "Google Drive" && <GoogleDriveFiles />} */}
-					{/* <ActionButton
+					{title === "Google Drive" && <GoogleDriveFiles />}
+					<ActionButton
 						currentService={title}
 						nodeConnection={nodeConnection}
 						channels={selectedSlackChannels}
 						setChannels={setSelectedSlackChannels}
-					/> */}
+					/>
 				</div>
 			</Card>
 		</AccordionContent>

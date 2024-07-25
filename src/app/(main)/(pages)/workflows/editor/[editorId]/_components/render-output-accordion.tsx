@@ -1,10 +1,7 @@
-"use client";
-
-import React from "react";
-
-import { EditorState } from "@/providers/editor-provider";
 import { ConnectionProviderProps } from "@/providers/connection-provider";
+import { EditorState } from "@/providers/editor-provider";
 import { useAutomatonStore } from "@/store";
+import React from "react";
 import ContentBasedOnTitle from "./content-based-on-title";
 
 type Props = {
@@ -19,7 +16,6 @@ const RenderOutputAccordion = ({ state, nodeConnection }: Props) => {
 		selectedSlackChannels,
 		setSelectedSlackChannels,
 	} = useAutomatonStore();
-
 	return (
 		<ContentBasedOnTitle
 			nodeConnection={nodeConnection}
@@ -28,7 +24,7 @@ const RenderOutputAccordion = ({ state, nodeConnection }: Props) => {
 			setFile={setGoogleFile}
 			selectedSlackChannels={selectedSlackChannels}
 			setSelectedSlackChannels={setSelectedSlackChannels}
-		></ContentBasedOnTitle>
+		/>
 	);
 };
 

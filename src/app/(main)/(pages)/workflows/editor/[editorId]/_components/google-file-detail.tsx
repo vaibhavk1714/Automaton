@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
+import { onAddTemplates } from "@/lib/editor-utils";
 import { ConnectionProviderProps } from "@/providers/connection-provider";
 import React from "react";
 
@@ -9,7 +10,7 @@ type Props = {
 };
 
 const isGoogleFileNotEmpty = (file: any): boolean => {
-	return Object.keys(file).length > 0 && file.kind != "";
+	return Object.keys(file)?.length > 0 && file.kind != "";
 };
 
 const GoogleFileDetails = ({ nodeConnection, title, gFile }: Props) => {
@@ -26,7 +27,7 @@ const GoogleFileDetails = ({ nodeConnection, title, gFile }: Props) => {
 						<div
 							key={detail}
 							onClick={() =>
-								onAddTemplate(
+								onAddTemplates(
 									nodeConnection,
 									title,
 									gFile[detail]

@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 
-export const onCreateNodeEdges = async (
+export const onCreateNodesEdges = async (
 	flowId: string,
 	nodes: string,
 	edges: string,
@@ -19,11 +19,11 @@ export const onCreateNodeEdges = async (
 		},
 	});
 
-	if (flow) return { message: "Flow saved" };
+	if (flow) return { message: "flow saved" };
 };
 
 export const onFlowPublish = async (workflowId: string, state: boolean) => {
-	const publish = await db.workflows.update({
+	const published = await db.workflows.update({
 		where: {
 			id: workflowId,
 		},
@@ -32,7 +32,6 @@ export const onFlowPublish = async (workflowId: string, state: boolean) => {
 		},
 	});
 
-	if (publish.publish) return "Workflow published";
-
+	if (published.publish) return "Workflow published";
 	return "Workflow unpublished";
 };

@@ -1,4 +1,5 @@
 "use client";
+
 import { EditorCanvasTypes, EditorNodeType } from "@/lib/types";
 import { useNodeConnections } from "@/providers/connection-provider";
 import { useEditor } from "@/providers/editor-provider";
@@ -14,11 +15,10 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import {
-	// fetchBotSlackChannels,
-	// onConnections,
+	fetchBotSlackChannels,
+	onConnections,
 	onDragStart,
 } from "@/lib/editor-utils";
-
 import EditorCanvasIconHelper from "./editor-canvas-icon-helper";
 import {
 	Accordion,
@@ -27,9 +27,8 @@ import {
 	AccordionTrigger,
 } from "@/components/ui/accordion";
 import RenderConnectionAccordion from "./render-connection-accordion";
-// import RenderOutputAccordion from "./render-output-accordian";
-import { useAutomatonStore } from "@/store";
 import RenderOutputAccordion from "./render-output-accordion";
+import { useAutomatonStore } from "@/store";
 
 type Props = {
 	nodes: EditorNodeType[];
@@ -38,28 +37,28 @@ type Props = {
 const EditorCanvasSidebar = ({ nodes }: Props) => {
 	const { state } = useEditor();
 	const { nodeConnection } = useNodeConnections();
+	const { googleFile, setSlackChannels } = useAutomatonStore();
 
-	// const { googleFile, setSlackChannels } = useAutomatonStore();
-	// useEffect(() => {
-	// 	if (state) {
-	// 		onConnections(nodeConnection, state, googleFile);
-	// 	}
-	// }, [state]);
+	useEffect(() => {
+		if (state) {
+			onConnections(nodeConnection, state, googleFile);
+		}
+	}, [state]);
 
-	// useEffect(() => {
-	// 	if (nodeConnection.slackNode.slackAccessToken) {
-	// 		fetchBotSlackChannels(
-	// 			nodeConnection.slackNode.slackAccessToken,
-	// 			setSlackChannels
-	// 		);
-	// 	}
-	// }, [nodeConnection]);
+	useEffect(() => {
+		if (nodeConnection.slackNode.slackAccessToken) {
+			fetchBotSlackChannels(
+				nodeConnection.slackNode.slackAccessToken,
+				setSlackChannels
+			);
+		}
+	}, [nodeConnection]);
 
 	return (
 		<aside>
 			<Tabs
 				defaultValue="actions"
-				className="h-screen overflow-scroll pb-52"
+				className="h-screen overflow-scroll pb-24"
 			>
 				<TabsList className="bg-transparent">
 					<TabsTrigger value="actions">Actions</TabsTrigger>
@@ -110,6 +109,7 @@ const EditorCanvasSidebar = ({ nodes }: Props) => {
 					<div className="px-2 py-4 text-center text-xl font-bold">
 						{state.editor.selectedNode.data.title}
 					</div>
+
 					<Accordion type="multiple">
 						<AccordionItem
 							value="Options"
@@ -119,7 +119,7 @@ const EditorCanvasSidebar = ({ nodes }: Props) => {
 								Account
 							</AccordionTrigger>
 							<AccordionContent>
-								{CONNECTIONS.map((connection) => (
+								{CONNECTIONS.map((connection: any) => (
 									<RenderConnectionAccordion
 										key={connection.title}
 										state={state}
@@ -129,7 +129,7 @@ const EditorCanvasSidebar = ({ nodes }: Props) => {
 							</AccordionContent>
 						</AccordionItem>
 						<AccordionItem
-							value="Expected output"
+							value="Expected Output"
 							className="px-2"
 						>
 							<AccordionTrigger className="!no-underline">
