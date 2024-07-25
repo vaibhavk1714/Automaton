@@ -33,6 +33,7 @@ import {
 import EditorCanvasCardSingle from "./editor-canvas-card-single";
 import FlowInstance from "./flow-instance";
 import EditorCanvasSidebar from "./editor-canvas-sidebar";
+import { onGetNodesEdges } from "../../../_actions/workflow-connections";
 
 type Props = {};
 
@@ -55,7 +56,6 @@ const EditorCanvas = (props: Props) => {
 
 	const onNodesChange = useCallback(
 		(changes: NodeChange[]) => {
-			console.log(changes);
 			//@ts-ignore
 			setNodes((nds) => applyNodeChanges(changes, nds));
 		},
@@ -145,6 +145,7 @@ const EditorCanvas = (props: Props) => {
 	};
 
 	useEffect(() => {
+		console.log(nodes, nodes);
 		dispatch({ type: "LOAD_DATA", payload: { edges, elements: nodes } });
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [nodes, edges]);
@@ -167,20 +168,20 @@ const EditorCanvas = (props: Props) => {
 		[]
 	);
 
-	// const onGetWorkFlow = async () => {
-	// 	setIsWorkFlowLoading(true);
-	// 	const response = await onGetNodesEdges(pathname.split("/").pop()!);
-	// 	if (response) {
-	// 		setEdges(JSON.parse(response.edges!));
-	// 		setNodes(JSON.parse(response.nodes!));
-	// 		setIsWorkFlowLoading(false);
-	// 	}
-	// 	setIsWorkFlowLoading(false);
-	// };
+	const onGetWorkFlow = async () => {
+		setIsWorkFlowLoading(true);
+		const response = await onGetNodesEdges(pathname.split("/").pop()!);
+		if (response) {
+			setEdges(JSON.parse(response.edges!));
+			setNodes(JSON.parse(response.nodes!));
+			setIsWorkFlowLoading(false);
+		}
+		setIsWorkFlowLoading(false);
+	};
 
-	// useEffect(() => {
-	// 	onGetWorkFlow();
-	// }, []);
+	useEffect(() => {
+		onGetWorkFlow();
+	}, []);
 
 	return (
 		<ResizablePanelGroup direction="horizontal">
@@ -231,7 +232,7 @@ const EditorCanvas = (props: Props) => {
 								<Controls position="top-left" />
 								<MiniMap
 									position="bottom-left"
-									className="!bg-background"
+									className="!bg-background text-black"
 									zoomable
 									pannable
 								/>

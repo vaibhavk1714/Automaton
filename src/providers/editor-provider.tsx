@@ -110,6 +110,14 @@ const editorReducer = (
 					edges: action.payload.edges,
 				},
 			};
+		case "SELECTED_ELEMENT":
+			return {
+				...state,
+				editor: {
+					...state.editor,
+					selectedNode: action.payload.element,
+				},
+			};
 		default:
 			return state;
 	}
